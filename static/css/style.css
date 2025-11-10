@@ -1,0 +1,359 @@
+/* =============== GLOBAL =============== */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f8fafc;
+  color: #222;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+body.loaded {
+  opacity: 1;
+}
+
+/* =============== HEADER =============== */
+.header {
+  background: #1e88e5;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header nav a, 
+.header nav span {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+  font-weight: 500;
+}
+.btn, .btn-primary {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-primary {
+  background: #ffb300;
+  color: #222;
+  transition: 0.3s;
+}
+.btn-primary:hover {
+  background: #ffc947;
+}
+
+/* =============== HERO =============== */
+.hero {
+  background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80') center/cover;
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* =============== ADS SECTION =============== */
+.ads-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+.ads-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.ad-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+.ad-card:hover {
+  transform: scale(1.02);
+}
+.ad-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+.ad-card p {
+  padding: 10px;
+  font-weight: 500;
+}
+
+/* =============== SERVICES SECTION =============== */
+.section {
+  padding: 40px 20px;
+  text-align: center;
+}
+.service-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.service-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+.service-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.service-info {
+  padding: 16px;
+}
+.service-info h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+/* =============== BOOKING PAGE =============== */
+.booking-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 30px 20px;
+  background: #f8fafc;
+}
+.booking-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  padding: 25px;
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+}
+.booking-card h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.booking-card h3 {
+  margin-top: 25px;
+  color: #1e88e5;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.booking-card label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+}
+.booking-card input,
+.booking-card select,
+.booking-card textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  font-size: 0.95rem;
+}
+.booking-card button {
+  margin-top: 20px;
+}
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+.checkbox-group label {
+  background: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.checkbox-group input {
+  margin-right: 6px;
+}
+
+/* =============== AUTH PAGES (LOGIN/SIGNUP) =============== */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f8fafc;
+  padding: 20px;
+}
+.auth-card {
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+  animation: fadeInUp 0.6s ease;
+}
+.auth-card h2 {
+  text-align: center;
+  color: #1e88e5;
+  margin-bottom: 20px;
+}
+.auth-card label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+}
+.auth-card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-size: 0.95rem;
+}
+.auth-card button {
+  margin-top: 20px;
+}
+.error-msg {
+  color: #d32f2f;
+  background: #ffebee;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.auth-alt {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+.auth-alt a {
+  color: #1e88e5;
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-alt a:hover {
+  text-decoration: underline;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =============== FOOTER =============== */
+footer {
+  background: #1e88e5;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+/* =============== DARK MODE =============== */
+body.dark {
+  background: #121212;
+  color: #eee;
+  transition: background 0.4s, color 0.4s;
+}
+body.dark .header {
+  background: #1a1a1a;
+  color: #eee;
+}
+body.dark .hero {
+  background: linear-gradient(160deg, #1a1a1a, #222);
+  color: #fff;
+}
+body.dark .service-card,
+body.dark .ad-card,
+body.dark .booking-card,
+body.dark .auth-card {
+  background: #222;
+  color: #ddd;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+}
+body.dark footer {
+  background: #1a1a1a;
+  color: #bbb;
+}
+body.dark .auth-card input {
+  background: #333;
+  color: #eee;
+  border-color: #444;
+}
+body.dark .auth-alt a {
+  color: #ffb300;
+}
+.theme-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  margin-left: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.theme-btn:hover {
+  transform: rotate(20deg) scale(1.15);
+  color: #ffb300;
+}
+
+/* =============== TOAST / POPUP =============== */
+.flash-message {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+}
+.toast {
+  background: #4caf50;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: fadeInOut 3.5s ease forwards;
+  font-weight: 500;
+  min-width: 240px;
+  text-align: center;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+body.dark .toast {
+  background: #00c853;
+  color: #111;
+}
+
+/* =============== RESPONSIVE =============== */
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.8rem; }
+  .hero p { font-size: 1rem; }
+  .header { flex-direction: column; align-items: flex-start; }
+  .header nav { margin-top: 10px; }
+  .booking-card, .auth-card { margin-top: 15%; }
+}

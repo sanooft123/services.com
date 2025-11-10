@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Book Car Wash - Smart Service</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Loader Overlay -->
+  <div id="loader-overlay">
+    <div class="loader"></div>
+  </div>
+
+  <header class="header">
+    <div class="logo">🚗 Smart Service</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/logout" class="btn">Logout</a>
+      <button id="theme-toggle" class="theme-btn">🌙</button>
+    </nav>
+  </header>
+
+  <!-- Flash Message -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-message">
+        {% for msg in messages %}
+          <div class="toast">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <section class="booking-page">
+    <div class="booking-card">
+      <h2>🚘 Car Wash Booking</h2>
+
+      <form method="POST">
+        <h3>Vehicle Details</h3>
+        <label>Car Make & Model</label>
+        <input type="text" name="car_make" placeholder="e.g., Toyota Innova" required>
+
+        <label>Car Type</label>
+        <select name="car_type" required>
+          <option>Hatchback</option>
+          <option>Sedan</option>
+          <option>SUV</option>
+          <option>Luxury</option>
+        </select>
+
+        <label>Vehicle Number Plate</label>
+        <input type="text" name="vehicle_number" placeholder="e.g., KL-07-AB-1234" required>
+
+        <label>Color</label>
+        <input type="text" name="color" placeholder="e.g., White">
+
+        <h3>Service Details</h3>
+        <label>Service Type</label>
+        <select name="service_type" required>
+          <option>Exterior Wash</option>
+          <option>Full Wash</option>
+          <option>Interior Detailing</option>
+          <option>Wax & Shine</option>
+        </select>
+
+        <label>Service Package</label>
+        <select name="package" required>
+          <option>Basic</option>
+          <option>Premium</option>
+          <option>Deluxe</option>
+        </select>
+
+        <label>Add-ons</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="addons" value="Engine Cleaning"> Engine Cleaning</label>
+          <label><input type="checkbox" name="addons" value="Perfume"> Perfume</label>
+          <label><input type="checkbox" name="addons" value="Polishing"> Polishing</label>
+        </div>
+
+        <label>Special Instructions</label>
+        <textarea name="special_instructions" placeholder="e.g., Pet hair in back seat"></textarea>
+
+        <h3>Booking Details</h3>
+        <label>Preferred Date</label>
+        <input type="date" name="date" required>
+
+        <label>Preferred Time Slot</label>
+        <input type="time" name="time" required>
+
+        <label>Location Type</label>
+        <select name="location" required>
+          <option>At Service Center</option>
+          <option>Doorstep</option>
+          <option>Pickup & Drop</option>
+        </select>
+
+        <h3>Payment Details</h3>
+        <label>Payment Method</label>
+        <select name="payment_method">
+          <option>UPI</option>
+          <option>Cash</option>
+          <option>Card</option>
+        </select>
+
+        <label>Payment Status</label>
+        <select name="payment_status">
+          <option>Pending</option>
+          <option>Paid</option>
+        </select>
+
+        <label>Promo Code</label>
+        <input type="text" name="promo_code" placeholder="Enter code">
+
+        <button type="submit" class="btn-primary full-width">Confirm Car Wash Booking</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Smart Service Booking | All Rights Reserved</p>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
