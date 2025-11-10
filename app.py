@@ -7,10 +7,16 @@ import os
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "bookings.db")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# -------------------- DATABASE CONFIG --------------------
+# Use PostgreSQL on Render (via DATABASE_URL env variable)
+# Fallback to local SQLite if not on Render
+if os.environ.get("DATABASE_URL"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL").replace("postgres://", "postgresql://")
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "bookings.db")
 
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # -------------------- MODELS --------------------
@@ -21,6 +27,7 @@ class User(db.Model):
     email = db.Column(db.String(120))
     password_hash = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    bookings = db.relationship("CarWashBooking", backref="user", lazy=True)
 
 # Separate table just for Car Wash Bookings
 class CarWashBooking(db.Model):
@@ -43,6 +50,7 @@ class CarWashBooking(db.Model):
     status = db.Column(db.String(20), default="Pending")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+# -------------------- CREATE TABLES --------------------
 with app.app_context():
     db.create_all()
 
@@ -133,4 +141,5 @@ def book_carwash():
     return render_template("book_carwash.html", user=user)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # When running locally, use Flask dev server
+    app.run(debug=True, host="0.0.0.0")
