@@ -3,13 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
+import requests  # ✅ to send data to admin app
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
 # -------------------- DATABASE CONFIG --------------------
-# Use PostgreSQL on Render (via DATABASE_URL env variable)
-# Fallback to local SQLite if not on Render
 if os.environ.get("DATABASE_URL"):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL").replace("postgres://", "postgresql://")
 else:
@@ -29,7 +28,6 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     bookings = db.relationship("CarWashBooking", backref="user", lazy=True)
 
-# Separate table just for Car Wash Bookings
 class CarWashBooking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -50,11 +48,10 @@ class CarWashBooking(db.Model):
     status = db.Column(db.String(20), default="Pending")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-# -------------------- CREATE TABLES --------------------
 with app.app_context():
     db.create_all()
 
-# -------------------- DATA --------------------
+# -------------------- STATIC DATA --------------------
 SERVICES = [
     {"name": "Car Wash", "price": 10, "image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70"},
     {"name": "Full Detailing", "price": 60, "image": "https://images.unsplash.com/photo-1601924582971-df8fef8b2716"},
@@ -66,6 +63,22 @@ ADS = [
     {"title": "Get 20% off your first Car Wash!", "image": "https://images.unsplash.com/photo-1605719124118-40e4a6f2e4f2"},
     {"title": "Weekend Offer: Haircut + Shave Combo", "image": "https://images.unsplash.com/photo-1621954520131-ecdf5d6f0ef9"},
 ]
+
+# -------------------- ADMIN CONNECTION --------------------
+ADMIN_API_URL = "https://admin-services.onrender.com/api/add_booking"
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "mysupersecretkey123")  # same key as admin app
+
+def send_booking_to_admin(booking_data):
+    """Send booking info to admin site"""
+    try:
+        headers = {"Authorization": ADMIN_API_KEY}
+        response = requests.post(ADMIN_API_URL, json=booking_data, headers=headers, timeout=5)
+        if response.status_code == 201:
+            print("✅ Booking sent to admin successfully.")
+        else:
+            print("⚠️ Failed to send booking to admin:", response.text)
+    except Exception as e:
+        print("❌ Error connecting to admin API:", e)
 
 # -------------------- ROUTES --------------------
 @app.route("/")
@@ -108,7 +121,7 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
-# -------------------- CAR WASH BOOKING --------------------
+# -------------------- BOOKING ROUTE --------------------
 @app.route("/book/car-wash", methods=["GET", "POST"])
 def book_carwash():
     if "user_id" not in session:
@@ -135,11 +148,20 @@ def book_carwash():
         )
         db.session.add(booking)
         db.session.commit()
-        flash("✅ Car Wash Booking Submitted Successfully!")
+
+        # ✅ Send booking to admin dashboard
+        booking_data = {
+            "name": user.name,
+            "service": booking.service_type,
+            "date": booking.date,
+            "status": "Pending"
+        }
+        send_booking_to_admin(booking_data)
+
+        flash("✅ Booking submitted successfully and sent to admin!")
         return redirect(url_for("home"))
 
     return render_template("book_carwash.html", user=user)
 
 if __name__ == "__main__":
-    # When running locally, use Flask dev server
     app.run(debug=True, host="0.0.0.0")
